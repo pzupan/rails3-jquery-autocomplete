@@ -24,7 +24,11 @@ module Rails3JQueryAutocomplete
           scopes.each do |scope|
             scope_method = scope.gsub(/\(.*\)/, "")
             scope_params = scope.scan(/\(([^}]+)\)/).flatten[0]
-            items = items.send(scope_method, scope_params)
+            items = if scope_params.blank?
+              items.send(scope_method)
+            else
+              items.send(scope_method, scope_params)
+            end
           end
         end
 
